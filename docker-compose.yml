@@ -1,0 +1,23 @@
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "${NGINXPORT}:${NGINXPORT}"
+    volumes:
+      - ./src:/var/www/html/public  
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mariadb:latest
+    ports:
+      - "${MYSQLPORT}:${MYSQLPORT2}"
+    environment:
+      - MYSQL_DATABASE=${MYSQLDATABASE}
+      - MYSQL_USER=${MYSQLUSER}
+      - MYSQL_PASSWORD=${MYSQLPASS}
+      - MYSQL_ROOT_PASSWORD=${MYSQLROOTPASS}
+    volumes:
+      - ./mysql_data:/var/lib/mysql
